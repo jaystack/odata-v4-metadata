@@ -1,0 +1,15 @@
+{
+  "name": "odata-metadata",
+  "version": "0.0.1",
+  "description": "OData metadata utilities",
+  "main": "lib/edm.js",
+  "typings":"lib/edm.d.ts",
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.2"
+  }
+}

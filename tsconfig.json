@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "outDir": "lib",
+        "module": "commonjs",
+        "target": "es5",
+        "emitDecoratorMetadata": true,
+        "declaration": true,
+        "watch": false
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
