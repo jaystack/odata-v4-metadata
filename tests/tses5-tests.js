@@ -1,8 +1,8 @@
-/// <reference path="../dest/edm.d.ts" />
+/// <reference path="../lib/edm.d.ts" />
 /// <reference path="../node_modules/reflect-metadata/reflect-metadata.d.ts" />
 require('reflect-metadata');
 
-var edm = require('../dest/edm.js')
+var edm = require('../lib/edm.js')
 var expect = require('chai').expect
 var serialize = new edm.SerializeAttribute()
 var typeArgumentAttribute = new edm.MemberAttribute("typeArgument")
@@ -49,6 +49,19 @@ describe("edm.EntityType", () => {
     it("should support initialize name from init data", () => {
         var p = {
             name: "h",
+            '@info': 'odata4-js incorrectly exports key as array, we follow this pattern in thests',
+            key: [
+              {
+                "propertyRef": [
+                  {
+                    "name": "OrderID"
+                  },
+                 {
+                    "name": "CustoerID"
+                  }  
+                ]
+              }
+            ],
             navigationProperty: [
                 {
                     name:"np1",
@@ -64,9 +77,11 @@ describe("edm.EntityType", () => {
         }
         var ed = new edm.EntityType(p, {})
         expect(ed.name).to.equal("h")
-        console.log()
         expect(ed.navigationProperties[0]).to.be.instanceof(edm.NavigationProperty)
         expect(ed.properties[0]).to.be.instanceof(edm.Property)
         expect(ed.navigationProperties[0].referentialConstraints[0].property).to.equal("np1")
+        expect(ed.key).to.be.instanceof(edm.Key)
+        expect(ed.key.propertyRefs[0]).to.be.instanceof(edm.PropertyRef)
+        
     });
 })

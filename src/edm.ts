@@ -67,7 +67,6 @@ export class AttributeFunctionChain {
     invoke(definition, instance) {
         var result = definition
         this.steps.forEach(fn => {
-            
             result = fn(result, instance)
         })
         return result
@@ -195,8 +194,21 @@ export class ReferentialConstraint extends EdmItemBase {
 
 }
 
-export class PropertyRef {
+export class PropertyRef extends EdmItemBase {
+    @serialize
+    @required
+    public name: string;
     
+    @serialize
+    //@requiredIfContainerIsComplexType
+    public alias: string;
+}
+
+export class Key extends EdmItemBase {
+
+    @serializeAs(mapArray("propertyRef", (prop, i) => new PropertyRef(prop, i)))
+    public propertyRefs: Array<PropertyRef>
+    //@arrayMinLength(1)    
 }
 
 
@@ -205,6 +217,14 @@ export class EntityType extends EdmItemBase {
     @serialize
     @required
     public name: string;
+    
+    
+    @serializeAs(new AttributeFunctionChain( 
+        (d, i) =>d.key, 
+        (props, i) => props || [],
+        (props, i) => props.map(prop => new Key(prop, i)),
+        (props) => props[0]))
+    public key: Key;
     
     @serialize
     public baseType: string;
@@ -217,6 +237,8 @@ export class EntityType extends EdmItemBase {
     
     @serialize
     public hasStream: boolean;
+    
+    
     
     @serializeAs(mapArray("property", (prop, i) => new Property(prop, i)))
     public properties: Array<Property>;
