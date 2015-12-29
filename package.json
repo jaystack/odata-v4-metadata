@@ -1,6 +1,6 @@
 {
   "name": "odata-metadata",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "OData metadata utilities",
   "main": "lib/edm.js",
   "homepage": "https://github.com/jaystack/odata-metadata.git",
