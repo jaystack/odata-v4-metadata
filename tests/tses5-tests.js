@@ -1,16 +1,14 @@
-/// <reference path="../lib/edm.d.ts" />
+/// <reference path="../lib/Edm.d.ts" />
 /// <reference path="../node_modules/reflect-metadata/reflect-metadata.d.ts" />
 require('reflect-metadata');
 
-var edm = require('../lib/edm.js')
+var Edm = require('../lib/Edm.js').Edm
 var expect = require('chai').expect
-var serialize = new edm.SerializeAttribute()
-var typeArgumentAttribute = new edm.MemberAttribute("typeArgument")
-
-describe("edm.EntityProperty", () => {
+Edm.S
+describe("Edm.EntityProperty", () => {
     it("should support no init data", () => {
-        var ep = new edm.Property();
-        expect(ep).to.be.instanceof(edm.Property)
+        var ep = new Edm.Property();
+        expect(ep).to.be.instanceof(Edm.Property)
     });
     
     it("should support initialize name from init data", () => {
@@ -20,13 +18,13 @@ describe("edm.EntityProperty", () => {
                 { name:"p1"},{name:"p2"},{name:"p3"}
             ]
         }
-        var ed = new edm.EntityType(p, {})
-        expect(ed.properties[0]).to.be.instanceof(edm.Property)
+        var ed = new Edm.EntityType(p, {})
+        expect(ed.properties[0]).to.be.instanceof(Edm.Property)
         expect(ed.properties[0].name).to.equal("p1")
     });
 })
 
-describe("edm.NavigationProperty", () => {
+describe("Edm.NavigationProperty", () => {
 
     
     it("should support initialize name from init data", () => {
@@ -36,14 +34,14 @@ describe("edm.NavigationProperty", () => {
                 { property:"p1"},{property:"p2"},{property:"p3"}
             ]
         }
-        var ed = new edm.NavigationProperty(p, {})
+        var ed = new Edm.NavigationProperty(p, {})
         expect(ed.name).to.equal("h")
-        expect(ed.referentialConstraints[0]).to.be.instanceof(edm.ReferentialConstraint)
+        expect(ed.referentialConstraints[0]).to.be.instanceof(Edm.ReferentialConstraint)
         expect(ed.referentialConstraints[0].property).to.equal("p1")
     });
 })
 
-describe("edm.EntityType", () => {
+describe("Edm.EntityType", () => {
     
     
     it("should support initialize name from init data", () => {
@@ -75,13 +73,13 @@ describe("edm.EntityType", () => {
                 { name:"p1"},{name:"p2"},{name:"p3"}
             ]
         }
-        var ed = new edm.EntityType(p, {})
+        var ed = new Edm.EntityType(p, {})
         expect(ed.name).to.equal("h")
-        expect(ed.navigationProperties[0]).to.be.instanceof(edm.NavigationProperty)
-        expect(ed.properties[0]).to.be.instanceof(edm.Property)
+        expect(ed.navigationProperties[0]).to.be.instanceof(Edm.NavigationProperty)
+        expect(ed.properties[0]).to.be.instanceof(Edm.Property)
         expect(ed.navigationProperties[0].referentialConstraints[0].property).to.equal("np1")
-        expect(ed.key).to.be.instanceof(edm.Key)
-        expect(ed.key.propertyRefs[0]).to.be.instanceof(edm.PropertyRef)
+        expect(ed.key).to.be.instanceof(Edm.Key)
+        expect(ed.key.propertyRefs[0]).to.be.instanceof(Edm.PropertyRef)
         
     });
 })
