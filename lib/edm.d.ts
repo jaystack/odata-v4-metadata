@@ -1,67 +1,84 @@
-/// <reference path="../node_modules/reflect-metadata/reflect-metadata.d.ts" />
-export declare class MemberAttribute {
-    protected attributeName: string;
-    constructor(attributeName: string);
-    private registerMember(target, key);
-    getDecoratorValue(target: Object, key: string, presentedValue?: any): any;
-    decorate(value?: any): Function;
-    decorator: Function;
-    isApplied(instance: Object, memberName: string): boolean;
-    static getMembers(target: Function | Object): any;
-    static getAttributeNames(target: Function | Object, memberName: string): any[];
-    static getAttributeValue(target: Object, memberName: string, attributeName: string): any;
-}
-export declare class AttributeFunctionChain {
-    private steps;
-    constructor(...steps: Array<Function>);
-    invoke(definition: any, instance: any): any;
-}
-export declare class SerializeAttribute extends MemberAttribute {
-    constructor();
-    getDecoratorValue(target: Object, key: string, presentedValue?: any): any;
-}
-export declare class EdmItemBase {
-    private parent;
-    constructor(definition?: any, parent?: EdmItemBase);
-    loadFrom(definition: any): void;
-}
-export declare class Property extends EdmItemBase {
-    name: string;
-    type: string;
-    nullable: boolean;
-    maxLength: number;
-    precision: number;
-    scale: number;
-    unicode: boolean;
-    SRID: number;
-    defaultValue: any;
-}
-export declare class NavigationProperty extends EdmItemBase {
-    name: string;
-    type: string;
-    nullable: boolean;
-    partner: string;
-    containsTarget: boolean;
-    referentialConstraints: Array<ReferentialConstraint>;
-}
-export declare class ReferentialConstraint extends EdmItemBase {
-    property: string;
-    referencedProperty: string;
-}
-export declare class PropertyRef extends EdmItemBase {
-    name: string;
-    alias: string;
-}
-export declare class Key extends EdmItemBase {
-    propertyRefs: Array<PropertyRef>;
-}
-export declare class EntityType extends EdmItemBase {
-    name: string;
-    key: Key;
-    baseType: string;
-    abstract: boolean;
-    openType: boolean;
-    hasStream: boolean;
-    properties: Array<Property>;
-    navigationProperties: Array<NavigationProperty>;
+export declare namespace Edm {
+    class PrimitiveType {
+        className: string;
+        constructor(className: string);
+    }
+    let Binary: PrimitiveType;
+    let Boolean: PrimitiveType;
+    let Byte: PrimitiveType;
+    let Date: PrimitiveType;
+    let DateTimeOffset: PrimitiveType;
+    let Decimal: PrimitiveType;
+    let Double: PrimitiveType;
+    let Duration: PrimitiveType;
+    let Guid: PrimitiveType;
+    let Int16: PrimitiveType;
+    let Int32: PrimitiveType;
+    let Int64: PrimitiveType;
+    let SByte: PrimitiveType;
+    let Single: PrimitiveType;
+    let Stream: PrimitiveType;
+    let String: PrimitiveType;
+    let TimeOfDay: PrimitiveType;
+    let Geography: PrimitiveType;
+    let GeographyPoint: PrimitiveType;
+    let GeographyLineString: PrimitiveType;
+    let GeographyPolygon: PrimitiveType;
+    let GeographyMultiPoint: PrimitiveType;
+    let GeographyMultiLineString: PrimitiveType;
+    let GeographyMultiPolygon: PrimitiveType;
+    let GeographyCollection: PrimitiveType;
+    let Geometry: PrimitiveType;
+    let GeometryPoint: PrimitiveType;
+    let GeometryLineString: PrimitiveType;
+    let GeometryPolygon: PrimitiveType;
+    let GeometryMultiPoint: PrimitiveType;
+    let GeometryMultiLineString: PrimitiveType;
+    let GeometryMultiPolygon: PrimitiveType;
+    let GeometryCollection: PrimitiveType;
+    class EdmItemBase {
+        private parent;
+        constructor(definition?: any, parent?: EdmItemBase);
+        loadFrom(definition: any): void;
+    }
+    class Property extends EdmItemBase {
+        name: string;
+        type: string;
+        nullable: boolean;
+        maxLength: number;
+        precision: number;
+        scale: number;
+        unicode: boolean;
+        SRID: number;
+        defaultValue: any;
+    }
+    class NavigationProperty extends EdmItemBase {
+        name: string;
+        type: string;
+        nullable: boolean;
+        partner: string;
+        containsTarget: boolean;
+        referentialConstraints: Array<ReferentialConstraint>;
+    }
+    class ReferentialConstraint extends EdmItemBase {
+        property: string;
+        referencedProperty: string;
+    }
+    class PropertyRef extends EdmItemBase {
+        name: string;
+        alias: string;
+    }
+    class Key extends EdmItemBase {
+        propertyRefs: Array<PropertyRef>;
+    }
+    class EntityType extends EdmItemBase {
+        name: string;
+        key: Key;
+        baseType: string;
+        abstract: boolean;
+        openType: boolean;
+        hasStream: boolean;
+        properties: Array<Property>;
+        navigationProperties: Array<NavigationProperty>;
+    }
 }
