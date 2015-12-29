@@ -48,10 +48,16 @@ export declare class ReferentialConstraint extends EdmItemBase {
     property: string;
     referencedProperty: string;
 }
-export declare class PropertyRef {
+export declare class PropertyRef extends EdmItemBase {
+    name: string;
+    alias: string;
+}
+export declare class Key extends EdmItemBase {
+    propertyRefs: Array<PropertyRef>;
 }
 export declare class EntityType extends EdmItemBase {
     name: string;
+    key: Key;
     baseType: string;
     abstract: boolean;
     openType: boolean;
