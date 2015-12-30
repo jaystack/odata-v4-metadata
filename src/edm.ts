@@ -3,42 +3,46 @@ import * as metacode from './metacode'
 export namespace Edm {
     export class PrimitiveType { 
         constructor(public className: string) { }
+        toString() { return this.className }
     }
+export const a = new PrimitiveType("x")
 
-    export let Binary = new PrimitiveType('Edm.Binary')
-    export let Boolean = new PrimitiveType('Edm.Boolean')
-    export let Byte = new PrimitiveType('Edm.Byte')
-    export let Date = new PrimitiveType('Edm.Date')
-    export let DateTimeOffset = new PrimitiveType('Edm.DateTimeOffset')
-    export let Decimal = new PrimitiveType('Edm.Decimal')
-    export let Double = new PrimitiveType('Edm.Double')
-    export let Duration = new PrimitiveType('Edm.Duration')
-    export let Guid = new PrimitiveType('Edm.Guid')
-    export let Int16 = new PrimitiveType('Edm.Int16')
-    export let Int32 = new PrimitiveType('Edm.Int32')
-    export let Int64 = new PrimitiveType('Edm.Int64')
-    export let SByte = new PrimitiveType('Edm.SByte')
-    export let Single = new PrimitiveType('Edm.Single')
-    export let Stream = new PrimitiveType('Edm.Stream')
-    export let String = new PrimitiveType('Edm.String')
-    export let TimeOfDay = new PrimitiveType('Edm.TimeOfDay')
-    export let Geography = new PrimitiveType('Edm.Geography')
-    export let GeographyPoint = new PrimitiveType('Edm.GeographyPoint')
-    export let GeographyLineString = new PrimitiveType('Edm.GeographyLineString')
-    export let GeographyPolygon = new PrimitiveType('Edm.GeographyPolygon')
-    export let GeographyMultiPoint = new PrimitiveType('Edm.GeographyMultiPoint')
-    export let GeographyMultiLineString = new PrimitiveType('Edm.GeographyMultiLineString')
-    export let GeographyMultiPolygon = new PrimitiveType('Edm.GeographyMultiPolygon')
-    export let GeographyCollection = new PrimitiveType('Edm.GeographyCollection')
-    export let Geometry = new PrimitiveType('Edm.Geometry')
-    export let GeometryPoint = new PrimitiveType('Edm.GeometryPoint')
-    export let GeometryLineString = new PrimitiveType('Edm.GeometryLineString')
-    export let GeometryPolygon = new PrimitiveType('Edm.GeometryPolygon')
-    export let GeometryMultiPoint = new PrimitiveType('Edm.GeometryMultiPoint')
-    export let GeometryMultiLineString = new PrimitiveType('Edm.GeometryMultiLineString')
-    export let GeometryMultiPolygon = new PrimitiveType('Edm.GeometryMultiPolygon')
-    export let GeometryCollection = new PrimitiveType('Edm.GeometryCollection')
+var x = Edm.a
 
+
+    export const Binary = new PrimitiveType('Edm.Binary')
+    export const Boolean = new PrimitiveType('Edm.Boolean')
+    export const Byte = new PrimitiveType('Edm.Byte')
+    export const Date = new PrimitiveType('Edm.Date')
+    export const DateTimeOffset = new PrimitiveType('Edm.DateTimeOffset')
+    export const Decimal = new PrimitiveType('Edm.Decimal')
+    export const Double = new PrimitiveType('Edm.Double')
+    export const Duration = new PrimitiveType('Edm.Duration')
+    export const Guid = new PrimitiveType('Edm.Guid')
+    export const Int16 = new PrimitiveType('Edm.Int16')
+    export const Int32 = new PrimitiveType('Edm.Int32')
+    export const Int64 = new PrimitiveType('Edm.Int64')
+    export const SByte = new PrimitiveType('Edm.SByte')
+    export const Single = new PrimitiveType('Edm.Single')
+    export const Stream = new PrimitiveType('Edm.Stream')
+    export const String = new PrimitiveType('Edm.String')
+    export const TimeOfDay = new PrimitiveType('Edm.TimeOfDay')
+    export const Geography = new PrimitiveType('Edm.Geography')
+    export const GeographyPoint = new PrimitiveType('Edm.GeographyPoint')
+    export const GeographyLineString = new PrimitiveType('Edm.GeographyLineString')
+    export const GeographyPolygon = new PrimitiveType('Edm.GeographyPolygon')
+    export const GeographyMultiPoint = new PrimitiveType('Edm.GeographyMultiPoint')
+    export const GeographyMultiLineString = new PrimitiveType('Edm.GeographyMultiLineString')
+    export const GeographyMultiPolygon = new PrimitiveType('Edm.GeographyMultiPolygon')
+    export const GeographyCollection = new PrimitiveType('Edm.GeographyCollection')
+    export const Geometry = new PrimitiveType('Edm.Geometry')
+    export const GeometryPoint = new PrimitiveType('Edm.GeometryPoint')
+    export const GeometryLineString = new PrimitiveType('Edm.GeometryLineString')
+    export const GeometryPolygon = new PrimitiveType('Edm.GeometryPolygon')
+    export const GeometryMultiPoint = new PrimitiveType('Edm.GeometryMultiPoint')
+    export const GeometryMultiLineString = new PrimitiveType('Edm.GeometryMultiLineString')
+    export const GeometryMultiPolygon = new PrimitiveType('Edm.GeometryMultiPolygon')
+    export const GeometryCollection = new PrimitiveType('Edm.GeometryCollection')
 
 
     let MemberAttribute = metacode.MemberAttribute
@@ -55,11 +59,12 @@ export namespace Edm {
 
     export class EdmItemBase {
         
-        constructor(definition?: any, private parent?:EdmItemBase) {
-        definition && this.loadFrom(definition)
+        constructor(definition?: any, public parent?:EdmItemBase) {
+            definition && this.loadFrom(definition)
         }
         
         loadFrom(definition) {
+
             var proto = Object.getPrototypeOf(this)
             MemberAttribute.getMembers(proto).forEach( membername => {
                 var parser = MemberAttribute.getAttributeValue(proto, membername, "serialize")
@@ -70,6 +75,7 @@ export namespace Edm {
 
     }
 
+    
 
     export class Property extends EdmItemBase {
         @parse
@@ -195,6 +201,179 @@ export namespace Edm {
         @parseAs(mapArray("navigationProperty", (prop, i) => new NavigationProperty(prop, i)))
         public navigationProperties: Array<NavigationProperty>;
 
+    }
+
+    export class ComplexType extends EdmItemBase {
+        
+        @parse
+        @required
+        public name: string;
+
+        @parse
+        public baseType: string;
+        
+        @parse
+        public abstract: boolean;
+        
+        @parse
+        public openType: boolean;
+        
+        @parse
+        public hasStream: boolean;
+        
+        @parseAs(mapArray("property", (prop, i) => new Property(prop, i)))
+        public properties: Array<Property>;
+
+        @parseAs(mapArray("navigationProperty", (prop, i) => new NavigationProperty(prop, i)))
+        public navigationProperties: Array<NavigationProperty>;
+
+    }
+    export class Parameter extends EdmItemBase {
+        
+        @parse
+        @required
+        public name: string
+    
+        
+        @parse
+        @required
+        public type: string;
+        
+        @parse
+        @defaultValue(true)
+        public nullable: boolean;
+
+        @parse
+        public maxLength: number;
+        
+        @parse
+        public precision: number;
+        
+        @parse
+        public scale: number;
+        
+        @parse
+        public unicode: boolean;
+        
+        @parse
+        @defaultValue(0)
+        public SRID: number;    
+        
+        // according to specs there is no default value for params. but is that right?
+        // @parse
+        // public defaultValue: any;
+    } 
+    export class ReturnType extends EdmItemBase {
+        @parse
+        public type: string
+        
+        @parse
+        @defaultValue(true)
+        public nullable: boolean
+    }
+    
+    export class Invokable extends EdmItemBase { }
+    
+    export class Action extends Invokable {
+        @parse
+        @required
+        public name: string
+        
+        @parse
+        public isBound: boolean
+        
+        @parse
+        public entitySetPath: string
+        
+        @parseAs(mapArray("parameter", (prop, i) => new Parameter(prop, i)))
+        public parameters: Array<Parameter>
+        
+        @parseAs(new AttributeFunctionChain(
+                (d, i) => d.returnType, 
+                (rt, i) => new ReturnType(rt, i)))
+
+        public returnType: ReturnType
+    }
+    
+    
+    export class Function extends Invokable {
+        @parse
+        @required
+        public name: string
+        
+        @parse
+        public isBound: boolean
+        
+        @parse
+        public entitySetPath: string
+        
+        @parseAs(mapArray("parameter", (prop, i) => new Parameter(prop, i)))
+        public parameters: Array<Parameter>
+        
+        @parseAs(new AttributeFunctionChain(
+                (d, i) => d.returnType, 
+                (rt, i) => new ReturnType(rt, i)))
+        public returnType: ReturnType        
+        
+        @parse
+        public isComposable: boolean
+    }
+    export class Member extends EdmItemBase {
+        @parse
+        @required
+        public name: string
+     
+        @parse
+        public value: number
+
+    }
+    
+    export class EnumType extends EdmItemBase {
+        @parse
+        @required
+        public namespace: string
+  
+        @parse
+        //@oneOf(Edm.Byte, Edm.SByte, Edm.Int16, Edm.Int32, Edm.Int64)
+        @defaultValue(Edm.Int32)
+        public underlyingType: PrimitiveType
+        
+        @parse
+        public isFlags: boolean
+        
+        @parseAs(mapArray("member", (prop, i) => new Member(prop, i)))
+        public members: Array<Member>        
+               
+    }
+    
+    export class Schema extends EdmItemBase {
+        @parse
+        @required
+        public namespace: string
+        
+        @parse
+        //@noneOf(["Edm", "odata", "System", "Transient")
+        public alias: string
+
+        @parseAs(mapArray("enumType", (prop, i) => new EnumType(prop, i)))
+        public enumTypes: Array<EnumType>
+
+
+        @parseAs(mapArray("complexType", (prop, i) => new ComplexType(prop, i)))
+        public complexTypes: Array<ComplexType>
+
+        
+        @parseAs(mapArray("entityType", (prop, i) => new EntityType(prop, i)))
+        public entityTypes: Array<EntityType>
+        
+        @parseAs(mapArray("action", (prop, i) => new Action(prop, i)))
+        public actions: Array<Action>
+        
+        @parseAs(mapArray("function", (prop, i) => new Edm.Function(prop, i)))
+        public functions: Array<Action>
+        
+        
+        
     }
 }
 
