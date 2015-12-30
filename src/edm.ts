@@ -5,9 +5,6 @@ export namespace Edm {
         constructor(public className: string) { }
         toString() { return this.className }
     }
-export const a = new PrimitiveType("x")
-
-var x = Edm.a
 
 
     export const Binary = new PrimitiveType('Edm.Binary')
@@ -370,7 +367,7 @@ var x = Edm.a
         public actions: Array<Action>
         
         @parseAs(mapArray("function", (prop, i) => new Edm.Function(prop, i)))
-        public functions: Array<Action>
+        public functions: Array<Edm.Function>
         
         
         
