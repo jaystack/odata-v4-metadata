@@ -372,6 +372,12 @@ export namespace Edm {
         
         
     }
+    
+    
+    export class DataServices extends EdmItemBase {
+        @parseAs(mapArray("schema", (prop, i) => new Schema(prop, i)))
+        public schemas: Array<Schema>
+    }
 }
 
 

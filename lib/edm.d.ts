@@ -141,4 +141,7 @@ export declare namespace Edm {
         actions: Array<Action>;
         functions: Array<Edm.Function>;
     }
+    class DataServices extends EdmItemBase {
+        schemas: Array<Schema>;
+    }
 }

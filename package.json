@@ -15,6 +15,7 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.2"
+    "reflect-metadata": "^0.1.2",
+    "chai": "^3.4.1"
   }
 }
