@@ -114,6 +114,18 @@ describe("Edm.DataService", () => {
         })
 })
 
+describe("Edm.DataService", () => {
+        it("should support initialize name from init data (edmx)", () => {
+              var d = new Edm.Edmx(nwindSchema)
+              var s = d.dataServices.schemas[0]
+              //s.
+              expect(s.entityTypes).to.have.length(26)
+              expect(s.entityTypes[0]).to.be.instanceof(Edm.EntityType)
+              expect(s.entityTypes[0].key.propertyRefs[0]).to.be.instanceof(Edm.PropertyRef)
+              expect(s.entityTypes[0].key.propertyRefs[0].name).to.equal("CategoryID")
+        })
+})
+
 var o4schema = require('./schema2.json')
 
 describe("Edm.Action", () => {

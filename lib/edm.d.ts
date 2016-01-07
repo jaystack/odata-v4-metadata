@@ -52,6 +52,7 @@ export declare namespace Edm {
         unicode: boolean;
         SRID: number;
         defaultValue: any;
+        concurrencyMode: String;
     }
     class NavigationProperty extends EdmItemBase {
         name: string;
@@ -127,10 +128,30 @@ export declare namespace Edm {
         value: number;
     }
     class EnumType extends EdmItemBase {
+        name: string;
         namespace: string;
         underlyingType: PrimitiveType;
         isFlags: boolean;
         members: Array<Member>;
+    }
+    class EntitySet extends EdmItemBase {
+        name: string;
+        entityType: string;
+    }
+    class ActionImport extends EdmItemBase {
+        name: string;
+        action: string;
+    }
+    class FunctionImport extends EdmItemBase {
+        name: string;
+        function: string;
+        includeInServiceDocument: boolean;
+    }
+    class EntityContainer extends EdmItemBase {
+        name: string;
+        entitySets: Array<EntitySet>;
+        actionImports: Array<ActionImport>;
+        functionImports: Array<FunctionImport>;
     }
     class Schema extends EdmItemBase {
         namespace: string;
@@ -140,8 +161,12 @@ export declare namespace Edm {
         entityTypes: Array<EntityType>;
         actions: Array<Action>;
         functions: Array<Edm.Function>;
+        entityContainer: Array<Edm.EntityContainer>;
     }
     class DataServices extends EdmItemBase {
         schemas: Array<Schema>;
+    }
+    class Edmx extends EdmItemBase {
+        dataServices: Array<DataServices>;
     }
 }

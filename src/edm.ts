@@ -50,7 +50,7 @@ export namespace Edm {
     let AttributeFunctionChain = metacode.AttributeFunctionChain
     let mapArray = (sourceField, factory) => new metacode.AttributeFunctionChain( 
         (d, i) =>d[sourceField], 
-        (props, i) => props || [],
+        (props, i) => Array.isArray(props) ? props : (props ? [props] : []),
         (props, i) => props.map(prop => factory(prop, i)))
         
 
@@ -106,6 +106,9 @@ export namespace Edm {
         
         @parse
         public defaultValue: any;
+        
+        @parse
+        public concurrencyMode: String
     }
 
     export class NavigationProperty extends EdmItemBase {
@@ -328,6 +331,10 @@ export namespace Edm {
     export class EnumType extends EdmItemBase {
         @parse
         @required
+        public name: string
+        
+        @parse
+        @required
         public namespace: string
   
         @parse
@@ -342,6 +349,55 @@ export namespace Edm {
         public members: Array<Member>        
                
     }
+    
+    export class EntitySet extends EdmItemBase {
+        @parse
+        @required
+        public name: string
+        
+        @parse
+        @required
+        public entityType: string
+    }
+    
+    export class ActionImport extends EdmItemBase {
+        @parse
+        @required
+        public name: string
+        
+        @parse
+        @required
+        public action: string
+    }
+    
+    export class FunctionImport extends EdmItemBase {
+        @parse
+        @required
+        public name: string
+        
+        @parse
+        @required
+        public function: string
+        
+        @parse
+        @defaultValue(false)
+        public includeInServiceDocument: boolean
+    }
+    
+    export class EntityContainer extends EdmItemBase {
+        @parse
+        public name: string
+        
+        @parseAs(mapArray("entitySet", (prop, i) => new EntitySet(prop, i)))
+        public entitySets: Array<EntitySet>
+        
+        @parseAs(mapArray("actionImport", (prop, i) => new ActionImport(prop, i)))
+        public actionImports: Array<ActionImport>
+        
+        @parseAs(mapArray("functionImport", (prop, i) => new FunctionImport(prop, i)))
+        public functionImports: Array<FunctionImport>
+    }
+    
     
     export class Schema extends EdmItemBase {
         @parse
@@ -369,7 +425,15 @@ export namespace Edm {
         @parseAs(mapArray("function", (prop, i) => new Edm.Function(prop, i)))
         public functions: Array<Edm.Function>
         
-        
+        //@parseAs(mapArray("entityContainer", (prop, i) => new Edm.EntityContainer(prop, i)))
+        // @parseAs(new AttributeFunctionChain(
+        //         (rt, i) =>{ 
+        //             if(rt.entityContainer)
+        //                 rt.entityContainer = [rt.entityContainer]
+        //             return rt 
+        //         }))
+        @parseAs(mapArray("entityContainer", (prop, i) => new Edm.EntityContainer(prop, i)))
+        public entityContainer: Array<Edm.EntityContainer>
         
     }
     
@@ -377,6 +441,13 @@ export namespace Edm {
     export class DataServices extends EdmItemBase {
         @parseAs(mapArray("schema", (prop, i) => new Schema(prop, i)))
         public schemas: Array<Schema>
+    }
+    
+    export class Edmx extends EdmItemBase {
+        @parseAs(new AttributeFunctionChain(
+            (edm) => new Edm.DataServices(edm.dataServices)
+        ))
+        public dataServices: Array<DataServices>
     }
 }
 
