@@ -53,6 +53,29 @@ export namespace Edm {
         (props, i) => Array.isArray(props) ? props : (props ? [props] : []),
         (props, i) => props.map(prop => factory(prop, i)))
         
+    let primitiveAnnotationValue = (sourceField) => new metacode.AttributeFunctionChain( 
+        (d, i) => {
+            if(d['collection'] && d['collection'][0] && Array.isArray(d['collection'][0][sourceField]) && !d[sourceField]){
+                return  d['collection'][0][sourceField].map(x => x.text)
+            } 
+            var props = d[sourceField];
+            if(Array.isArray(props)) {
+                 return props.filter(x => 'text' in x).map(x => x.text)[0]
+            } else {
+                return props    
+            }
+        })
+        
+   
+    let annotationTypeSelector = (source) => {
+        for(var i in AnnotationTypes){
+            if(i in source || (source['collection'] && source['collection'][0] && i in source['collection'][0])){
+                return AnnotationTypes[i]
+            }
+        }
+        return Annotation
+    } 
+        
 
     export class EdmItemBase {
         
@@ -65,8 +88,10 @@ export namespace Edm {
             var proto = Object.getPrototypeOf(this)
             MemberAttribute.getMembers(proto).forEach( membername => {
                 var parser = MemberAttribute.getAttributeValue(proto, membername, "serialize")
-                var v = parser.invoke(definition, this)
-                this[membername] = v
+                if (parser) {
+                    var v = parser.invoke(definition, this)
+                    this[membername] = v
+                }
             })
         }
 
@@ -109,6 +134,9 @@ export namespace Edm {
         
         @parse
         public concurrencyMode: String
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
 
     export class NavigationProperty extends EdmItemBase {
@@ -136,6 +164,9 @@ export namespace Edm {
         
         //TODO onDelete
 
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
 
     export class ReferentialConstraint extends EdmItemBase {
@@ -200,7 +231,9 @@ export namespace Edm {
 
         @parseAs(mapArray("navigationProperty", (prop, i) => new NavigationProperty(prop, i)))
         public navigationProperties: Array<NavigationProperty>;
-
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
 
     export class ComplexType extends EdmItemBase {
@@ -226,7 +259,9 @@ export namespace Edm {
 
         @parseAs(mapArray("navigationProperty", (prop, i) => new NavigationProperty(prop, i)))
         public navigationProperties: Array<NavigationProperty>;
-
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     export class Parameter extends EdmItemBase {
         
@@ -259,6 +294,9 @@ export namespace Edm {
         @defaultValue(0)
         public SRID: number;    
         
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
+        
         // according to specs there is no default value for params. but is that right?
         // @parse
         // public defaultValue: any;
@@ -270,6 +308,9 @@ export namespace Edm {
         @parse
         @defaultValue(true)
         public nullable: boolean
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     
     export class Invokable extends EdmItemBase { }
@@ -293,6 +334,9 @@ export namespace Edm {
                 (rt, i) => new ReturnType(rt, i)))
 
         public returnType: ReturnType
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     
     
@@ -317,6 +361,9 @@ export namespace Edm {
         
         @parse
         public isComposable: boolean
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     export class Member extends EdmItemBase {
         @parse
@@ -325,7 +372,9 @@ export namespace Edm {
      
         @parse
         public value: number
-
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     
     export class EnumType extends EdmItemBase {
@@ -346,8 +395,10 @@ export namespace Edm {
         public isFlags: boolean
         
         @parseAs(mapArray("member", (prop, i) => new Member(prop, i)))
-        public members: Array<Member>        
-               
+        public members: Array<Member>
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     
     export class EntitySet extends EdmItemBase {
@@ -358,6 +409,9 @@ export namespace Edm {
         @parse
         @required
         public entityType: string
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     
     export class ActionImport extends EdmItemBase {
@@ -425,16 +479,11 @@ export namespace Edm {
         @parseAs(mapArray("function", (prop, i) => new Edm.Function(prop, i)))
         public functions: Array<Edm.Function>
         
-        //@parseAs(mapArray("entityContainer", (prop, i) => new Edm.EntityContainer(prop, i)))
-        // @parseAs(new AttributeFunctionChain(
-        //         (rt, i) =>{ 
-        //             if(rt.entityContainer)
-        //                 rt.entityContainer = [rt.entityContainer]
-        //             return rt 
-        //         }))
         @parseAs(mapArray("entityContainer", (prop, i) => new Edm.EntityContainer(prop, i)))
         public entityContainer: Array<Edm.EntityContainer>
         
+        @parseAs(mapArray("annotations", (prop, i) => new Edm.Annotations(prop, i)))
+        public annotations: Array<Edm.Annotations>
     }
     
     
@@ -443,11 +492,147 @@ export namespace Edm {
         public schemas: Array<Schema>
     }
     
+    export class Reference extends EdmItemBase {
+        @parse
+        public uri: string
+        
+        @parseAs(mapArray("include", (prop, i) => new ReferenceInclude(prop, i)))
+        public includes: Array<ReferenceInclude>
+    }
+    
+    export class ReferenceInclude extends EdmItemBase {
+        @parse
+        public namespace: string
+        
+        @parse
+        public alias: string
+    }
+    
     export class Edmx extends EdmItemBase {
         @parseAs(new AttributeFunctionChain(
             (edm) => new Edm.DataServices(edm.dataServices)
         ))
-        public dataServices: Array<DataServices>
+        public dataServices: DataServices
+        
+        @parseAs(mapArray("reference", (prop, i) => new Reference(prop, i)))
+        public references: Array<Edm.Reference>
+    }
+    
+    export class Annotations extends EdmItemBase {
+        @parse
+        @required
+        public target: string
+        
+        @parse
+        public qualifier: string
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
+    }
+    
+    export class Annotation extends EdmItemBase {
+        @parse
+        public term: string
+        
+        @parse
+        public qualifier: string
+        
+        @parse
+        public path: string
+    }
+    
+    export class BinaryAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("binary"))
+        public binary: String
+    }
+    
+    export class BoolAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("bool"))
+        public bool: String
+    }
+    
+    export class DateAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("date"))
+        public date: String
+    }
+    
+    export class DateTimeOffsetAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("dateTimeOffset"))
+        public dateTimeOffset: String
+    }
+    
+    export class DecimalAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("decimal"))
+        public decimal: String
+    }
+    
+    export class DurationAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("duration"))
+        public duration: String
+    }
+    
+    export class EnumMemberAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("enumMember"))
+        public enumMember: String
+    }
+    
+    export class FloatAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("float"))
+        public float: String
+    }
+    
+    export class GuidAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("guid"))
+        public guid: String
+    }
+    
+    export class IntAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("int"))
+        public int: String
+    }
+    
+    export class StringAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("string"))
+        public string: String
+    }
+    
+    export class TimeOfDayAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("timeOfDay"))
+        public timeOfDay: String
+    }
+    
+    export class PropertyPathAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("propertyPath"))
+        public propertyPaths: String
+    }
+    
+    export class AnnotationPathAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("annotationPath"))
+        public annotationPaths: String
+    }
+    
+    export class NullAnnotation extends Annotation {
+        @parseAs(primitiveAnnotationValue("null"))
+        public null: Array<Object>
+    }
+    
+    
+    export const AnnotationTypes = {
+        binary: BinaryAnnotation,
+        bool: BoolAnnotation,
+        date: DateAnnotation,
+        dateTimeOffset: DateTimeOffsetAnnotation,
+        decimal: DecimalAnnotation,
+        duration: DurationAnnotation,
+        enumMember: EnumMemberAnnotation,
+        float: FloatAnnotation,
+        guid: GuidAnnotation,
+        int: IntAnnotation,
+        string: StringAnnotation,
+        timeOfDay: TimeOfDayAnnotation,
+        propertyPath: PropertyPathAnnotation,
+        annotationPath: AnnotationPathAnnotation,
+        null: NullAnnotation
     }
 }
 

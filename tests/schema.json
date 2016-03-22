@@ -1,5 +1,25 @@
 {
   "version": "4.0",
+  "reference": [
+    {
+      "uri": "http://docs.oasis-open.org/odata/odata/v4.0/os/vocabularies/Org.OData.Core.V1.xml",
+      "include": [
+        {
+          "namespace": "Org.OData.Core.V1",
+          "alias": "Core"
+        }
+      ]
+    },
+    {
+      "uri": "http://docs.oasis-open.org/odata/odata/v4.0/os/vocabularies/Org.OData.Measures.V1.xml",
+      "include": [
+        {
+          "alias": "UoM",
+          "namespace": "Org.OData.Measures.V1"
+        }
+      ]
+    }
+  ],
   "dataServices": {
     "schema": [
       {

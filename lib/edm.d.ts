@@ -53,6 +53,7 @@ export declare namespace Edm {
         SRID: number;
         defaultValue: any;
         concurrencyMode: String;
+        annotations: Array<Edm.Annotation>;
     }
     class NavigationProperty extends EdmItemBase {
         name: string;
@@ -61,6 +62,7 @@ export declare namespace Edm {
         partner: string;
         containsTarget: boolean;
         referentialConstraints: Array<ReferentialConstraint>;
+        annotations: Array<Edm.Annotation>;
     }
     class ReferentialConstraint extends EdmItemBase {
         property: string;
@@ -82,6 +84,7 @@ export declare namespace Edm {
         hasStream: boolean;
         properties: Array<Property>;
         navigationProperties: Array<NavigationProperty>;
+        annotations: Array<Edm.Annotation>;
     }
     class ComplexType extends EdmItemBase {
         name: string;
@@ -91,6 +94,7 @@ export declare namespace Edm {
         hasStream: boolean;
         properties: Array<Property>;
         navigationProperties: Array<NavigationProperty>;
+        annotations: Array<Edm.Annotation>;
     }
     class Parameter extends EdmItemBase {
         name: string;
@@ -101,10 +105,12 @@ export declare namespace Edm {
         scale: number;
         unicode: boolean;
         SRID: number;
+        annotations: Array<Edm.Annotation>;
     }
     class ReturnType extends EdmItemBase {
         type: string;
         nullable: boolean;
+        annotations: Array<Edm.Annotation>;
     }
     class Invokable extends EdmItemBase {
     }
@@ -114,6 +120,7 @@ export declare namespace Edm {
         entitySetPath: string;
         parameters: Array<Parameter>;
         returnType: ReturnType;
+        annotations: Array<Edm.Annotation>;
     }
     class Function extends Invokable {
         name: string;
@@ -122,10 +129,12 @@ export declare namespace Edm {
         parameters: Array<Parameter>;
         returnType: ReturnType;
         isComposable: boolean;
+        annotations: Array<Edm.Annotation>;
     }
     class Member extends EdmItemBase {
         name: string;
         value: number;
+        annotations: Array<Edm.Annotation>;
     }
     class EnumType extends EdmItemBase {
         name: string;
@@ -133,10 +142,12 @@ export declare namespace Edm {
         underlyingType: PrimitiveType;
         isFlags: boolean;
         members: Array<Member>;
+        annotations: Array<Edm.Annotation>;
     }
     class EntitySet extends EdmItemBase {
         name: string;
         entityType: string;
+        annotations: Array<Edm.Annotation>;
     }
     class ActionImport extends EdmItemBase {
         name: string;
@@ -162,11 +173,93 @@ export declare namespace Edm {
         actions: Array<Action>;
         functions: Array<Edm.Function>;
         entityContainer: Array<Edm.EntityContainer>;
+        annotations: Array<Edm.Annotations>;
     }
     class DataServices extends EdmItemBase {
         schemas: Array<Schema>;
     }
-    class Edmx extends EdmItemBase {
-        dataServices: Array<DataServices>;
+    class Reference extends EdmItemBase {
+        uri: string;
+        includes: Array<ReferenceInclude>;
     }
+    class ReferenceInclude extends EdmItemBase {
+        namespace: string;
+        alias: string;
+    }
+    class Edmx extends EdmItemBase {
+        dataServices: DataServices;
+        references: Array<Edm.Reference>;
+    }
+    class Annotations extends EdmItemBase {
+        target: string;
+        qualifier: string;
+        annotations: Array<Edm.Annotation>;
+    }
+    class Annotation extends EdmItemBase {
+        term: string;
+        qualifier: string;
+        path: string;
+    }
+    class BinaryAnnotation extends Annotation {
+        binary: String;
+    }
+    class BoolAnnotation extends Annotation {
+        bool: String;
+    }
+    class DateAnnotation extends Annotation {
+        date: String;
+    }
+    class DateTimeOffsetAnnotation extends Annotation {
+        dateTimeOffset: String;
+    }
+    class DecimalAnnotation extends Annotation {
+        decimal: String;
+    }
+    class DurationAnnotation extends Annotation {
+        duration: String;
+    }
+    class EnumMemberAnnotation extends Annotation {
+        enumMember: String;
+    }
+    class FloatAnnotation extends Annotation {
+        float: String;
+    }
+    class GuidAnnotation extends Annotation {
+        guid: String;
+    }
+    class IntAnnotation extends Annotation {
+        int: String;
+    }
+    class StringAnnotation extends Annotation {
+        string: String;
+    }
+    class TimeOfDayAnnotation extends Annotation {
+        timeOfDay: String;
+    }
+    class PropertyPathAnnotation extends Annotation {
+        propertyPaths: String;
+    }
+    class AnnotationPathAnnotation extends Annotation {
+        annotationPaths: String;
+    }
+    class NullAnnotation extends Annotation {
+        null: Array<Object>;
+    }
+    const AnnotationTypes: {
+        binary: typeof BinaryAnnotation;
+        bool: typeof BoolAnnotation;
+        date: typeof DateAnnotation;
+        dateTimeOffset: typeof DateTimeOffsetAnnotation;
+        decimal: typeof DecimalAnnotation;
+        duration: typeof DurationAnnotation;
+        enumMember: typeof EnumMemberAnnotation;
+        float: typeof FloatAnnotation;
+        guid: typeof GuidAnnotation;
+        int: typeof IntAnnotation;
+        string: typeof StringAnnotation;
+        timeOfDay: typeof TimeOfDayAnnotation;
+        propertyPath: typeof PropertyPathAnnotation;
+        annotationPath: typeof AnnotationPathAnnotation;
+        null: typeof NullAnnotation;
+    };
 }

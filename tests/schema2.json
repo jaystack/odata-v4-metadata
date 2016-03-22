@@ -24,7 +24,12 @@
               },
               {
                 "name": "LoginName",
-                "type": "Edm.String"
+                "type": "Edm.String",
+                "annotation": [
+                    {
+                        "term": "UI.DisplayName"
+                    }
+                ]
               },
               {
                 "name": "Email",
@@ -537,6 +542,65 @@
               {
                 "name": "Guest",
                 "value": "2"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "target": "JayData.Test.CommonItems.Entities.User/Id",
+            "annotation": [
+              {
+                "term": "Org.OData.Core.V1.Computed",
+                "bool": [
+                  {
+                    "text": "true"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "target": "JayData.Test.CommonItems.Entities.Article/Id",
+            "annotation": [
+              {
+                "term": "Org.OData.Core.V1.Computed",
+                "bool": "true"
+              }
+            ]
+          },
+          {
+            "target": "JayData.Test.CommonItems.Entities.Article/Lead",
+            "annotation": [
+              {
+                "term": "UI.DisplayName",
+                "string": "Lead"
+              }
+            ]
+          },
+          {
+            "target": "JayData.Test.CommonItems.Entities.Article/Lead",
+            "annotation": [
+              {
+                "term": "UI.DisplayName",
+                "string": [
+                  {
+                    "text": "Lead"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "target": "JayData.Test.CommonItems.Entities.Category/Id",
+            "annotation": [
+              {
+                "term": "Org.OData.Core.V1.Computed",
+                "bool": "true"
+              },
+              {
+                "term": "UI.DisplayName",
+                "string": "Identifier"
               }
             ]
           }
