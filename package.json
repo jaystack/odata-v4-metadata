@@ -1,26 +1,26 @@
 {
-    "name": "odata-metadata",
-    "version": "0.0.4",
-    "description": "OData metadata utilities",
-    "main": "lib/edm.js",
-    "homepage": "https://github.com/jaystack/odata-metadata.git",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/jaystack/odata-metadata.git"
-    },
-    "typings": "lib/edm.d.ts",
-    "author": "",
-    "license": "ISC",
-    "engines": {
-        "node": ">=0.6.0"
-    },
-    "dependencies": {
-        "reflect-metadata": "^0.1.2"
-    },
-    "devDependencies": {
-        "chai": "^3.4.1"
-    },
-    "scripts": {
-        "test": "mocha tests"
-    }
+  "name": "odata-metadata",
+  "version": "0.1.0",
+  "description": "OData metadata utilities",
+  "main": "lib/edm.js",
+  "homepage": "https://github.com/jaystack/odata-metadata.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaystack/odata-metadata.git"
+  },
+  "typings": "lib/edm.d.ts",
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=0.6.0"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.2"
+  },
+  "devDependencies":{
+    "chai": "^3.4.1"
+  },
+  "scripts": {
+    "test": "mocha tests"
+  }
 }
