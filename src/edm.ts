@@ -531,6 +531,8 @@ export namespace Edm {
     }
     
     export class Annotation extends EdmItemBase {
+        public annotationType: string = "Unknown";
+        
         @parse
         public term: string
         
@@ -542,76 +544,113 @@ export namespace Edm {
     }
     
     export class BinaryAnnotation extends Annotation {
+        public annotationType: string = "Binary";
+        
         @parseAs(primitiveAnnotationValue("binary"))
         public binary: String
     }
     
     export class BoolAnnotation extends Annotation {
+        public annotationType: string = "Bool";
+        
         @parseAs(primitiveAnnotationValue("bool"))
         public bool: String
     }
     
     export class DateAnnotation extends Annotation {
+        public annotationType: string = "Date";
+        
         @parseAs(primitiveAnnotationValue("date"))
         public date: String
     }
     
     export class DateTimeOffsetAnnotation extends Annotation {
+        public annotationType: string = "DateTimeOffset";
+        
         @parseAs(primitiveAnnotationValue("dateTimeOffset"))
         public dateTimeOffset: String
     }
     
     export class DecimalAnnotation extends Annotation {
+        public annotationType: string = "Decimal";
+        
         @parseAs(primitiveAnnotationValue("decimal"))
         public decimal: String
     }
     
     export class DurationAnnotation extends Annotation {
+        public annotationType: string = "Duration";
+        
         @parseAs(primitiveAnnotationValue("duration"))
         public duration: String
     }
     
     export class EnumMemberAnnotation extends Annotation {
+        public annotationType: string = "EnumMember";
+        
         @parseAs(primitiveAnnotationValue("enumMember"))
         public enumMember: String
     }
     
     export class FloatAnnotation extends Annotation {
+        public annotationType: string = "Float";
+        
         @parseAs(primitiveAnnotationValue("float"))
         public float: String
     }
     
     export class GuidAnnotation extends Annotation {
+        public annotationType: string = "Guid";
+        
         @parseAs(primitiveAnnotationValue("guid"))
         public guid: String
     }
     
     export class IntAnnotation extends Annotation {
+        public annotationType: string = "Int";
+        
         @parseAs(primitiveAnnotationValue("int"))
         public int: String
     }
     
     export class StringAnnotation extends Annotation {
+        public annotationType: string = "String";
+        
         @parseAs(primitiveAnnotationValue("string"))
         public string: String
     }
     
     export class TimeOfDayAnnotation extends Annotation {
+        public annotationType: string = "TimeOfDay";
+        
         @parseAs(primitiveAnnotationValue("timeOfDay"))
         public timeOfDay: String
     }
     
     export class PropertyPathAnnotation extends Annotation {
+        public annotationType: string = "PropertyPath";
+        
         @parseAs(primitiveAnnotationValue("propertyPath"))
         public propertyPaths: String
     }
     
+    export class NavigationPropertyPathAnnotation extends Annotation {
+        public annotationType: string = "NavigationPropertyPath";
+        
+        @parseAs(primitiveAnnotationValue("propertyPath"))
+        public navigationPropertyPaths: String
+    }
+    
     export class AnnotationPathAnnotation extends Annotation {
+        public annotationType: string = "AnnotationPath";
+        
         @parseAs(primitiveAnnotationValue("annotationPath"))
         public annotationPaths: String
     }
     
     export class NullAnnotation extends Annotation {
+        public annotationType: string = "Null";
+        
         @parseAs(primitiveAnnotationValue("null"))
         public null: Array<Object>
     }
@@ -631,6 +670,7 @@ export namespace Edm {
         string: StringAnnotation,
         timeOfDay: TimeOfDayAnnotation,
         propertyPath: PropertyPathAnnotation,
+        navigationPropertyPath: NavigationPropertyPathAnnotation,
         annotationPath: AnnotationPathAnnotation,
         null: NullAnnotation
     }

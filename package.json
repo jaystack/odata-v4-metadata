@@ -1,6 +1,6 @@
 {
   "name": "odata-metadata",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OData metadata utilities",
   "main": "lib/edm.js",
   "homepage": "https://github.com/jaystack/odata-metadata.git",
@@ -15,9 +15,9 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.2"
+    "reflect-metadata": "^0.1.3"
   },
-  "devDependencies":{
+  "devDependencies": {
     "chai": "^3.4.1"
   },
   "scripts": {

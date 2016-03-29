@@ -196,53 +196,73 @@ export declare namespace Edm {
         annotations: Array<Edm.Annotation>;
     }
     class Annotation extends EdmItemBase {
+        annotationType: string;
         term: string;
         qualifier: string;
         path: string;
     }
     class BinaryAnnotation extends Annotation {
+        annotationType: string;
         binary: String;
     }
     class BoolAnnotation extends Annotation {
+        annotationType: string;
         bool: String;
     }
     class DateAnnotation extends Annotation {
+        annotationType: string;
         date: String;
     }
     class DateTimeOffsetAnnotation extends Annotation {
+        annotationType: string;
         dateTimeOffset: String;
     }
     class DecimalAnnotation extends Annotation {
+        annotationType: string;
         decimal: String;
     }
     class DurationAnnotation extends Annotation {
+        annotationType: string;
         duration: String;
     }
     class EnumMemberAnnotation extends Annotation {
+        annotationType: string;
         enumMember: String;
     }
     class FloatAnnotation extends Annotation {
+        annotationType: string;
         float: String;
     }
     class GuidAnnotation extends Annotation {
+        annotationType: string;
         guid: String;
     }
     class IntAnnotation extends Annotation {
+        annotationType: string;
         int: String;
     }
     class StringAnnotation extends Annotation {
+        annotationType: string;
         string: String;
     }
     class TimeOfDayAnnotation extends Annotation {
+        annotationType: string;
         timeOfDay: String;
     }
     class PropertyPathAnnotation extends Annotation {
+        annotationType: string;
         propertyPaths: String;
     }
+    class NavigationPropertyPathAnnotation extends Annotation {
+        annotationType: string;
+        navigationPropertyPaths: String;
+    }
     class AnnotationPathAnnotation extends Annotation {
+        annotationType: string;
         annotationPaths: String;
     }
     class NullAnnotation extends Annotation {
+        annotationType: string;
         null: Array<Object>;
     }
     const AnnotationTypes: {
@@ -259,6 +279,7 @@ export declare namespace Edm {
         string: typeof StringAnnotation;
         timeOfDay: typeof TimeOfDayAnnotation;
         propertyPath: typeof PropertyPathAnnotation;
+        navigationPropertyPath: typeof NavigationPropertyPathAnnotation;
         annotationPath: typeof AnnotationPathAnnotation;
         null: typeof NullAnnotation;
     };
