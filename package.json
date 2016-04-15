@@ -1,12 +1,12 @@
 {
-  "name": "odata-metadata",
-  "version": "0.1.1",
+  "name": "odata-v4-metadata",
+  "version": "0.1.2",
   "description": "OData metadata utilities",
   "main": "lib/edm.js",
-  "homepage": "https://github.com/jaystack/odata-metadata.git",
+  "homepage": "https://github.com/jaystack/odata-v4-metadata.git",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jaystack/odata-metadata.git"
+    "url": "https://github.com/jaystack/odata-v4-metadata.git"
   },
   "typings": "lib/edm.d.ts",
   "author": "",

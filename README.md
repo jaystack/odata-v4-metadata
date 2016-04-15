@@ -1,4 +1,4 @@
-#OData metadata classes
+#OData V4 metadata classes
 
 This library implements the EDM and EMDX classes from the OData CSDL V4. 
 
@@ -11,13 +11,13 @@ This library implements the EDM and EMDX classes from the OData CSDL V4.
 ##Usage
 
 ```
-$ npm install odata-metadata
+$ npm install odata-v4-metadata
 ```
 
 then just
 
 ```javascript
-import {Edm} from 'odata-metadata'
+import {Edm} from 'odata-v4-metadata'
 
 let entityType = new edm.EntityType({ name: "Orders", property: [{ name:"OrderID", type:edm.Integer}]
 entityType.properties.push(new Edm.Property(...))
