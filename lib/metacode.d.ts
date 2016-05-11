@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/reflect-metadata/reflect-metadata.d.ts" />
 export declare class MemberAttribute {
     protected attributeName: string;
     constructor(attributeName: string);
@@ -6,9 +5,7 @@ export declare class MemberAttribute {
     getDecoratorValue(target: Object, key: string, presentedValue?: any): any;
     decorate(value?: any): Function;
     decorator: Function;
-    isApplied(instance: Object, memberName: string): boolean;
     static getMembers(target: Function | Object): any;
-    static getAttributeNames(target: Function | Object, memberName: string): any[];
     static getAttributeValue(target: Object, memberName: string, attributeName: string): any;
 }
 export declare class AttributeFunctionChain {

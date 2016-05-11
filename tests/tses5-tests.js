@@ -1,6 +1,4 @@
 /// <reference path="../lib/Edm.d.ts" />
-/// <reference path="../node_modules/reflect-metadata/reflect-metadata.d.ts" />
-require('reflect-metadata');
 
 var Edm = require('../lib/edm.js').Edm
 var expect = require('chai').expect

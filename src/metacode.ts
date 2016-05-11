@@ -1,5 +1,3 @@
-/// <reference path="../node_modules/reflect-metadata/reflect-metadata.d.ts" />
-import 'reflect-metadata';
 function isFunction(o: any) {
     return "function" === typeof o
 }
@@ -7,16 +5,19 @@ function isUndefined(o: any) {
     return o === undefined
 }
 
+const definitionPropName = 'definition';
+
 export class MemberAttribute {
     constructor(protected attributeName: string) { }
 
     private registerMember(target: Object, key: string) {
-        let md = (Reflect.getMetadata("members", target) || [])
+        var def = target[definitionPropName] = target[definitionPropName] || {};
+        let md = (def.members || [])
         if (md.indexOf(key) < 0) {
             md.push(key)
         } 
         
-        Reflect.defineMetadata("members", md, target)        
+        def.members = md
     } 
     
     getDecoratorValue(target:Object, key:string, presentedValue?: any) {
@@ -28,11 +29,8 @@ export class MemberAttribute {
             this.registerMember(target, key)
             var decoratorValue = this.getDecoratorValue(target, key, value)
             
-            //console.log("decorator runs",key, this.attributeName, decoratorValue, value)
-            Reflect.defineMetadata(this.attributeName, 
-                                decoratorValue,
-                                target, 
-                                key)
+            target[definitionPropName][this.attributeName] = target[definitionPropName][this.attributeName] || {}
+            target[definitionPropName][this.attributeName][key] = decoratorValue;
         }
     }
     
@@ -40,21 +38,12 @@ export class MemberAttribute {
         return this.decorate()
     }
     
-    
-    isApplied(instance: Object, memberName: string) {
-        return Reflect.getMetadataKeys(Object.getPrototypeOf(instance), memberName).indexOf(this.attributeName) > -1
-    }
-    
     static getMembers(target: Function | Object) {
-        return Reflect.getMetadata("members", isFunction(target) ? (<Function>target).prototype : target)
-    }
-    
-    static getAttributeNames(target: Function | Object, memberName: string) {
-        return Reflect.getMetadataKeys(target, memberName)           
+        return target[definitionPropName].members
     }
     
     static getAttributeValue(target: Object, memberName: string, attributeName: string) {
-        return Reflect.getMetadata(attributeName, target, memberName)
+        return ((target[definitionPropName] || {})[attributeName] || {})[memberName]
     }
 
 }
