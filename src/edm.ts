@@ -134,6 +134,9 @@ export namespace Edm {
         
         @parse
         public concurrencyMode: String
+
+        @parse
+        public storeGeneratedPattern: string
         
         @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
         public annotations: Array<Edm.Annotation>
@@ -155,6 +158,15 @@ export namespace Edm {
         
         @parse
         public partner: string
+
+        @parse
+        public relationship: string
+
+        @parse
+        public fromRole: string
+
+        @parse
+        public toRole: string
         
         @parse
         public containsTarget: boolean
@@ -451,7 +463,39 @@ export namespace Edm {
         @parseAs(mapArray("functionImport", (prop, i) => new FunctionImport(prop, i)))
         public functionImports: Array<FunctionImport>
     }
+
+    export class End extends EdmItemBase{
+        @parse
+        public entitySet: string
+
+        @parse
+        public role: string
+
+        @parse
+        public multiplicity: string
+
+        @parse
+        public type: string
+    }
+
+    export class Association extends EdmItemBase{
+        @parse
+        public name: string
+
+        @parseAs(mapArray("end", (prop, i) => new End(prop, i)))
+        public ends: Array<End>
+    }
     
+    export class AssociationSet extends EdmItemBase{
+        @parse
+        public name: string
+
+        @parse
+        public association: string
+
+        @parseAs(mapArray("end", (prop, i) => new End(prop, i)))
+        public ends: Array<End>
+    }
     
     export class Schema extends EdmItemBase {
         @parse
@@ -484,12 +528,24 @@ export namespace Edm {
         
         @parseAs(mapArray("annotations", (prop, i) => new Edm.Annotations(prop, i)))
         public annotations: Array<Edm.Annotations>
+
+        @parseAs(mapArray("association", (prop , i) => new Edm.Association(prop, i)))
+        public associations: Array<Edm.Association>
+
+        @parseAs(mapArray("associationSet", (prop , i) => new Edm.AssociationSet(prop, i)))
+        public associationSets: Array<Edm.AssociationSet>
     }
     
     
     export class DataServices extends EdmItemBase {
         @parseAs(mapArray("schema", (prop, i) => new Schema(prop, i)))
         public schemas: Array<Schema>
+
+        @parse
+        public maxDataServiceVersion: string
+
+        @parse
+        public dataServiceVersion: string
     }
     
     export class Reference extends EdmItemBase {

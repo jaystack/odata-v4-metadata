@@ -4,7 +4,7 @@ export declare class MemberAttribute {
     private registerMember(target, key);
     getDecoratorValue(target: Object, key: string, presentedValue?: any): any;
     decorate(value?: any): Function;
-    decorator: Function;
+    readonly decorator: Function;
     static getMembers(target: Function | Object): any;
     static getAttributeValue(target: Object, memberName: string, attributeName: string): any;
 }

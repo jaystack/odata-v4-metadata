@@ -53,6 +53,7 @@ export declare namespace Edm {
         SRID: number;
         defaultValue: any;
         concurrencyMode: String;
+        storeGeneratedPattern: string;
         annotations: Array<Edm.Annotation>;
     }
     class NavigationProperty extends EdmItemBase {
@@ -60,6 +61,9 @@ export declare namespace Edm {
         type: string;
         nullable: boolean;
         partner: string;
+        relationship: string;
+        fromRole: string;
+        toRole: string;
         containsTarget: boolean;
         referentialConstraints: Array<ReferentialConstraint>;
         annotations: Array<Edm.Annotation>;
@@ -164,6 +168,21 @@ export declare namespace Edm {
         actionImports: Array<ActionImport>;
         functionImports: Array<FunctionImport>;
     }
+    class End extends EdmItemBase {
+        entitySet: string;
+        role: string;
+        multiplicity: string;
+        type: string;
+    }
+    class Association extends EdmItemBase {
+        name: string;
+        ends: Array<End>;
+    }
+    class AssociationSet extends EdmItemBase {
+        name: string;
+        association: string;
+        ends: Array<End>;
+    }
     class Schema extends EdmItemBase {
         namespace: string;
         alias: string;
@@ -174,9 +193,13 @@ export declare namespace Edm {
         functions: Array<Edm.Function>;
         entityContainer: Array<Edm.EntityContainer>;
         annotations: Array<Edm.Annotations>;
+        associations: Array<Edm.Association>;
+        associationSets: Array<Edm.AssociationSet>;
     }
     class DataServices extends EdmItemBase {
         schemas: Array<Schema>;
+        maxDataServiceVersion: string;
+        dataServiceVersion: string;
     }
     class Reference extends EdmItemBase {
         uri: string;
