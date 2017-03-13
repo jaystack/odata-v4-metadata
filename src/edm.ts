@@ -414,6 +414,19 @@ export namespace Edm {
         public annotations: Array<Edm.Annotation>
     }
     
+    export class Singleton extends EdmItemBase {
+        @parse
+        @required
+        public name: string
+        
+        @parse
+        @required
+        public type: string
+        
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
+    }
+    
     export class ActionImport extends EdmItemBase {
         @parse
         @required
@@ -444,6 +457,9 @@ export namespace Edm {
         
         @parseAs(mapArray("entitySet", (prop, i) => new EntitySet(prop, i)))
         public entitySets: Array<EntitySet>
+        
+        @parseAs(mapArray("singleton", (prop, i) => new Singleton(prop, i)))
+        public singletons: Array<Singleton>
         
         @parseAs(mapArray("actionImport", (prop, i) => new ActionImport(prop, i)))
         public actionImports: Array<ActionImport>

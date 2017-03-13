@@ -149,6 +149,11 @@ export declare namespace Edm {
         entityType: string;
         annotations: Array<Edm.Annotation>;
     }
+    class Singleton extends EdmItemBase {
+        name: string;
+        type: string;
+        annotations: Array<Edm.Annotation>;
+    }
     class ActionImport extends EdmItemBase {
         name: string;
         action: string;
@@ -161,6 +166,7 @@ export declare namespace Edm {
     class EntityContainer extends EdmItemBase {
         name: string;
         entitySets: Array<EntitySet>;
+        singletons: Array<Singleton>;
         actionImports: Array<ActionImport>;
         functionImports: Array<FunctionImport>;
     }
