@@ -1,6 +1,6 @@
 {
   "name": "odata-v4-metadata",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "OData metadata utilities",
   "main": "lib/edm.js",
   "homepage": "https://github.com/jaystack/odata-v4-metadata.git",
@@ -15,9 +15,14 @@
     "node": ">=0.6.0"
   },
   "devDependencies": {
-    "chai": "^3.4.1"
+    "chai": "^3.4.1",
+    "rimraf": "^2.6.1",
+    "typescript": "^2.4.0"
   },
   "scripts": {
-    "test": "mocha tests"
+    "prebuild": "rimraf lib",
+    "build": "tsc",
+    "test": "mocha tests",
+    "prepublish": "npm run build"
   }
 }

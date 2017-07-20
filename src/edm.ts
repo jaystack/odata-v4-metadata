@@ -127,7 +127,7 @@ export namespace Edm {
         
         @parse
         @defaultValue(0)
-        public SRID: number;    
+        public SRID: number;
         
         @parse
         public defaultValue: any;
@@ -422,6 +422,9 @@ export namespace Edm {
         @parse
         @required
         public action: string
+
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     
     export class FunctionImport extends EdmItemBase {
@@ -436,6 +439,9 @@ export namespace Edm {
         @parse
         @defaultValue(false)
         public includeInServiceDocument: boolean
+
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
     }
     
     export class EntityContainer extends EdmItemBase {
@@ -452,6 +458,33 @@ export namespace Edm {
         public functionImports: Array<FunctionImport>
     }
     
+    // "Name", "UnderlyingType", "MaxLength", "Unicode", "Precision", "Scale", "SRID"
+    export class TypeDefinition extends EdmItemBase {
+        @parse
+        public name: string
+
+        @parse
+        public underlyingType: PrimitiveType
+
+        @parse
+        public maxLength: number
+
+        @parse
+        public unicode: boolean
+
+        @parse
+        public precision: number
+
+        @parse
+        public scale: number
+
+        @parse
+        @defaultValue(0)
+        public SRID: number;
+
+        @parseAs(mapArray("annotation", (prop, i) => new (annotationTypeSelector(prop))(prop, i)))
+        public annotations: Array<Edm.Annotation>
+    }
     
     export class Schema extends EdmItemBase {
         @parse
@@ -465,6 +498,8 @@ export namespace Edm {
         @parseAs(mapArray("enumType", (prop, i) => new EnumType(prop, i)))
         public enumTypes: Array<EnumType>
 
+        @parseAs(mapArray("typeDefinition", (prop, i) => new TypeDefinition(prop, i)))
+        public typeDefinitions: Array<TypeDefinition>
 
         @parseAs(mapArray("complexType", (prop, i) => new ComplexType(prop, i)))
         public complexTypes: Array<ComplexType>
@@ -509,6 +544,8 @@ export namespace Edm {
     }
     
     export class Edmx extends EdmItemBase {
+        public version = "4.0"
+
         @parseAs(new AttributeFunctionChain(
             (edm) => new Edm.DataServices(edm.dataServices)
         ))
